@@ -1,0 +1,19 @@
+{
+  "name": "serverbackuper",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ed-zo/ServerBackuper.git"
+  },
+  "author": "Ec_",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ed-zo/ServerBackuper/issues"
+  },
+  "homepage": "https://github.com/Ed-zo/ServerBackuper#readme"
+}
