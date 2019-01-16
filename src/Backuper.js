@@ -2,7 +2,7 @@ var Archiver = require('./modules/Archiver');
 const path = require('path');
 var Namer = require('./modules/NameCreator');
 
-class Profile {
+class Backuper {
 
     constructor(props) {
         Object.assign(this, props);
@@ -42,4 +42,4 @@ class Profile {
 }
 
 
-module.exports = Profile;
+module.exports = Backuper;

@@ -1,5 +1,5 @@
 module.exports = {
 
-    profileList: ["default"]
+    backupers: ["default"]
 
 }

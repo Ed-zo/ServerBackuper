@@ -1,11 +1,11 @@
 var ProfileConfig = require("../configs/profiles");
-var definedProfiles = require('../configs/default').profileList;
-const PROFILESS_PATH = __dirname + "/profiles/";
+var definedBackupers = require('../configs/default').backupers;
+const BACKUPERS_PATH = __dirname + "/backupers/";
 
-var ProfileClass = {};
+var BackuperClass = {};
 
-for (var profName of definedProfiles) {
-    ProfileClass[profName] = require(PROFILESS_PATH + profName);
+for (var bName of definedBackupers) {
+    BackuperClass[bName] = require(BACKUPERS_PATH + bName);
 }
 
 class ProfileLoader {
@@ -15,15 +15,15 @@ class ProfileLoader {
         for(var key in ProfileConfig) {
             var type = ProfileConfig[key].type || "default";
             var disabled = ProfileConfig[key].disabled || false;
-            if(ProfileClass[type] == null) throw "Unknown profile type";
+            if(BackuperClass[type] == null) throw "Unknown profile type";
             if(disabled) continue;
 
-            this.profiles[key] = new (ProfileClass[type])(ProfileConfig[key]);
+            this.profiles[key] = new (BackuperClass[type])(ProfileConfig[key]);
         }
     }
 
-    static getProfile(name) {
-        return this.profiles[name];
+    static getProfile(id) {
+        return this.profiles[id];
     }
 
 }
