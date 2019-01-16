@@ -1,16 +1,13 @@
 var shortid = require('shortid');
 var dateFormat = require('dateformat');
 
-class NameCreator {
-    
-    static createUnique(path = '', prefix = '', exten = 'tar.gz') {
-        return `${path}/${prefix}${shortid.generate()}.${exten}`;
-    }
-
-    static createByDate(format, date = new Date(), path = '', prefix = '', exten = 'tar.gz') {
-        return `${path}/${prefix}${dateFormat(date, format)}.${exten}`;
-    }
-
+function uniqueName({path = '', prefix = '', extension = 'tar.gz'}) {
+    return `${path}/${prefix}${shortid.generate()}.${extension}`;
 }
 
-module.exports = NameCreator;
+function nameByDate({path = '', prefix = '', extension = 'tar.gz', format = 'dd-mm-yyyy_hh-MM', date = new Date()}) {
+    return `${path}/${prefix}${dateFormat(date, format)}.${extension}`;
+}
+
+module.exports.unique = uniqueName;
+module.exports.time = nameByDate;
