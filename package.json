@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/Ed-zo/ServerBackuper/issues"
   },
-  "homepage": "https://github.com/Ed-zo/ServerBackuper#readme"
+  "homepage": "https://github.com/Ed-zo/ServerBackuper#readme",
+  "dependencies": {
+    "dateformat": "^3.0.3",
+    "md5": "^2.2.1",
+    "shortid": "^2.2.14",
+    "tar": "^4.4.8"
+  }
 }
