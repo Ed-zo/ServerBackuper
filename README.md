@@ -3,12 +3,12 @@
 Script for backuping files. Originaly made for minecraft servers. Uses tar.
 
 ## Backup config (profiles.js)
-```json
+```js
 {
     name: "Default",
     type: "default",
     disabled: true,
-    folder: "/Nodejs/typescript_testings/", 
+    folder: "/path/to/folder", 
     files: [],
     naming:  {
         type: "unique",
