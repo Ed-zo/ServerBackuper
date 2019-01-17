@@ -37,8 +37,9 @@ Script for backuping files. Originaly made for minecraft servers. Uses tar archi
 * `default` Default backuper archives folders and files and saves the tar file in defined `out` folder
 
 ### To Do
-- Check for md5 sum of archive (no need to save same backup twice if nothing changed)
-- Create more profiles for:
+- [x] Check for md5 sum of archive (no need to save same backup twice if nothing changed)
+- [ ] Delete old archives
+- [ ] Create more profiles for:
     - Minecraft
     - Uploading archives to other FTPs
 
