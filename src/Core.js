@@ -7,6 +7,7 @@ class Core {
         
         for(var name in ProfileLoader.profiles) {
             var profile = ProfileLoader.profiles[name];
+            profile.init();
             profile.start();
         }
     }

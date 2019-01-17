@@ -1,12 +1,13 @@
 # ServerBackuper
 
-Script for backuping files. Originaly made for minecraft servers. Uses tar.
+Script for backuping files. Originaly made for minecraft servers. Uses tar archiving.
 
 ## Backup config (profiles.js)
 ```js
 {
     name: "Default",
     type: "default",
+    execute: "0 * * * *",
     disabled: true,
     folder: "/path/to/folder", 
     files: [],
@@ -21,6 +22,7 @@ Script for backuping files. Originaly made for minecraft servers. Uses tar.
 
 - `name` Name is used to identify profile in logs
 - `type` What backuper should be used. See Backuper list for more info. Default: `default`
+- `execute` Execution interval. Uses cron syntax. Use https://crontab.guru
 - `disabled` Should be profile ignored?
 - `folder` What folder should backuper work with
 - `files` Array of files and folder. If array is empty backuper works with the whole `folder`

@@ -5,7 +5,7 @@ function uniqueName({path = '', prefix = '', extension = 'tar.gz'}) {
     return `${path}/${prefix}${shortid.generate()}.${extension}`;
 }
 
-function nameByDate({path = '', prefix = '', extension = 'tar.gz', format = 'dd-mm-yyyy_hh-MM', date = new Date()}) {
+function nameByDate({path = '', prefix = '', extension = 'tar.gz', format = 'dd-mm-yyyy_HH-MM', date = new Date()}) {
     return `${path}/${prefix}${dateFormat(date, format)}.${extension}`;
 }
 

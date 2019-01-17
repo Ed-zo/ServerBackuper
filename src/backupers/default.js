@@ -2,7 +2,7 @@ var Backuper = require('../Backuper');
 
 class DefaultBackuper extends Backuper {
 
-    async run() {
+    async _run() {
         await this.archive( this.generateName() );
     }
 

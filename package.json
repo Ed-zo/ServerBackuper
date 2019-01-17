@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Ed-zo/ServerBackuper#readme",
   "dependencies": {
+    "cron": "^1.6.0",
     "dateformat": "^3.0.3",
     "md5": "^2.2.1",
     "shortid": "^2.2.14",
