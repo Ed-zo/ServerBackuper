@@ -1,4 +1,5 @@
 var Archiver = require('./modules/Archiver');
+var fs = require('fs');
 const path = require('path');
 var Namer = require('./modules/NameCreator');
 var CronJob = require('cron').CronJob;
@@ -67,13 +68,29 @@ class Backuper {
         this.log(`Backuping finished in ${process.hrtime(start)} seconds`);
     }
 
-    archive(out) {
-        //TODO - save reference to the last archived file
+    /**
+     * Archive files
+     * returns true if new archive was created, else false
+     * @param {string} out File path
+     */
+    async archive(out) {
         if(this.worksWithFolder()) {
             var parsed = path.parse(this.folder);
-            return Archiver.archive(parsed.dir, [parsed.name], out);
+            await Archiver.archive(parsed.dir, [parsed.name], out);
         } else {
-            return Archiver.archive(this.folder, this.files, out);
+            await Archiver.archive(this.folder, this.files, out);
+        }
+
+        var currMD5 = await Archiver.md5(out);
+
+        if(this.lastArchive != null && currMD5 == this.lastArchive) {
+            fs.unlink(out, (err) => {
+                this.log("No need to have new archive (no file changed). Deleting newly created one.");
+            });
+            return false;
+        } else {
+            this.lastArchive = currMD5;
+            return true;
         }
     }
 
