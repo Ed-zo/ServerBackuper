@@ -1,5 +1,5 @@
 module.exports = {
 
-    backupers: ["default"]
+    backupers: ["default", "minecraft"]
 
 }

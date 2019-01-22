@@ -11,7 +11,8 @@ module.exports = [
             type: 'unique', //default: unique, options: [unique, time]
             prefix: 'backup-', //default: empty
         },
-        out: './'
+        out: './',
+        settings: {}
     }
 
 ]
