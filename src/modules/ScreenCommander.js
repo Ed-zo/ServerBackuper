@@ -1,7 +1,7 @@
 var {run} = require('./Command');
 
 
-class Screen {
+class ScreenCommander {
 
     constructor(name) {
         this.name = name;
@@ -22,4 +22,4 @@ class Screen {
 
 }
 
-module.exports = Screen;
+module.exports = ScreenCommander;
