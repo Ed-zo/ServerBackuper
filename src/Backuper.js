@@ -9,13 +9,14 @@ class Backuper {
 
     constructor(props) {
         Object.assign(this, props);
-        if(this.folder == null) throw 'Folder property not defined!';
-        if(this.execute == null) throw 'Execution interval is not defined!';
-        if(this.naming == null) {
-            this.naming = {type: 'unique'};
+        if (this.folder == null) throw 'Folder property not defined!';
+        if (this.execute == null) throw 'Execution interval is not defined!';
+        if (this.naming == null) {
+            this.naming = { type: 'unique' };
         } else {
-            if(this.naming.type == null || Namer[this.naming.type] == null) throw 'Unknown naming type!';
+            if (this.naming.type == null || Namer[this.naming.type] == null) throw 'Unknown naming type!';
         }
+        
     }
 
     worksWithFolder() {
@@ -32,7 +33,7 @@ class Backuper {
      * Setups timer that will call run()
      */
     init() {
-        if(this.job == null) {
+        if (this.job == null) {
             this.job = new CronJob(this.execute, this.runBackup.bind(this));
         }
     }
@@ -74,23 +75,28 @@ class Backuper {
      * @param {string} out File path
      */
     async archive(out) {
-        if(this.worksWithFolder()) {
+        if (this.worksWithFolder()) {
             var parsed = path.parse(this.folder);
             await Archiver.archive(parsed.dir, [parsed.name], out);
         } else {
             await Archiver.archive(this.folder, this.files, out);
         }
 
-        var currMD5 = await Archiver.md5(out);
+        var [currMD5, stats] = await Promise.all([Archiver.md5(out), new Promise((resolve, reject) => {
+            fs.lstat(out, (err, stats) => {
+                if(err) reject(err);
+                else resolve(stats);
+            });
+        })]);
 
-        if(this.lastArchive != null && currMD5 == this.lastArchive) {
+        if (this.lastArchive != null && currMD5 == this.lastArchive) {
             fs.unlink(out, (err) => {
                 this.log("No need to have new archive (no file changed). Deleting newly created one.");
             });
-            return false;
+            return { deleted: true, stats, out };
         } else {
             this.lastArchive = currMD5;
-            return true;
+            return { deleted: false, stats, out };
         }
     }
 

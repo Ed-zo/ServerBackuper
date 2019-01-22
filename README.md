@@ -15,7 +15,8 @@ Script for backuping files. Originaly made for minecraft servers. Uses tar archi
         type: "unique",
         prefix: "backup-",
     },
-    out: "./"
+    out: "./",
+    settings: {}
 }
 ```
 ### Profile options
@@ -32,16 +33,19 @@ Script for backuping files. Originaly made for minecraft servers. Uses tar archi
         - `time` - Date and time is used
     - `prefix` Text that will be prepended to the name
 - `out` Folder used for saving archived files
+- `settings` All other optional settings for backupers
 
 ### Backuper list:
-* `default` Default backuper archives folders and files and saves the tar file in defined `out` folder
+- `default` Default backuper archives folders and files and saves the tar file in defined `out` folder
+- `minecraft` Archives folders and files and notifies server with a message about archiving. Sends a message to a screen with running minecraft server. Settings:
+    - `screenName` The name of screen in which is minecraft server running
 
 ### To Do
 - [x] Check for md5 sum of archive (no need to save same backup twice if nothing changed)
 - [ ] Delete old archives
 - [ ] Create more profiles for:
-    - Minecraft
-    - Uploading archives to other FTPs
+    - [x] Minecraft
+    - [ ] Uploading archives to other FTPs
 
 ### Known bugs
 Archived file has redundant folder inside

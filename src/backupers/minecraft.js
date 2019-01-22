@@ -1,22 +1,22 @@
 var Backuper = require('../Backuper');
-var Screen = require("../modules/Screen");
+var ScreenCommander = require("../modules/ScreenCommander");
 
 class MinecraftBackuper extends Backuper {
 
     constructor(props) {
         super(props);
-        if(this.settings == null || this.settings.screenName == null)
+        if (this.settings == null || this.settings.screenName == null)
             throw 'Screen name setting is not set!';
 
-        this.screen = new Screen(this.settings.screenName);
+        this.screen = new ScreenCommander(this.settings.screenName);
     }
 
     async _run() {
-        if(this.screen != null) {
-            this.screen.send("say Backuping server...");
+        if (this.screen != null) {
+            this.screen.send("say Backuping server started...");
+            var result = await this.archive(this.generateName());
+            this.screen.send("say Backuping finished...");
         }
-
-        await this.archive( this.generateName() );
     }
 
 }
