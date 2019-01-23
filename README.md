@@ -37,12 +37,20 @@ Script for backuping files. Originaly made for minecraft servers. Uses tar archi
 
 ### Backuper list:
 - `default` Default backuper archives folders and files and saves the tar file in defined `out` folder
+- `default_ftp` Default backuper combined with FTP upload. This backuper creates an archive which is uploaded to an FTP account. Settings:
+    - `ftp` Settings used for connecting to an FTP server
+        - `hostname`
+        - `port`
+        - `user`
+        - `password`
+    - `remoteFolder` What folder should be used to save backups to
 - `minecraft` Archives folders and files and notifies server with a message about archiving. Sends a message to a screen with running minecraft server. Settings:
     - `screenName` The name of screen in which is minecraft server running
 
 ### To Do
 - [x] Check for md5 sum of archive (no need to save same backup twice if nothing changed)
 - [ ] Delete old archives
+- [ ] Better error handling. Save if there was an error and turn off profile after few errors occure.
 - [ ] Create more profiles for:
     - [x] Minecraft
     - [ ] Uploading archives to other FTPs

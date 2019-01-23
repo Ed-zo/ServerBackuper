@@ -34,6 +34,7 @@ class Backuper {
      */
     init() {
         if (this.job == null) {
+            this.log('Starting...');
             this.job = new CronJob(this.execute, this.runBackup.bind(this));
         }
     }
@@ -63,10 +64,15 @@ class Backuper {
      * Start backuping process
      */
     async runBackup() {
-        this.log("Backuping has started...");
-        var start = process.hrtime();
-        await this._run();
-        this.log(`Backuping finished in ${process.hrtime(start)} seconds`);
+        try {
+            this.log("Backuping has started...");
+            var start = process.hrtime();
+            await this._run();
+            this.log(`Backuping finished in ${process.hrtime(start)} seconds`);
+        } catch(err) {
+            this.log('Error occured while backuping!')
+            console.error(err);
+        }
     }
 
     /**
@@ -91,7 +97,7 @@ class Backuper {
 
         if (this.lastArchive != null && currMD5 == this.lastArchive) {
             fs.unlink(out, (err) => {
-                this.log("No need to have new archive (no file changed). Deleting newly created one.");
+                this.log("No need to have new archive (no file changed). Throwing away...");
             });
             return { deleted: true, stats, out };
         } else {

@@ -1,5 +1,5 @@
 module.exports = {
 
-    backupers: ["default", "minecraft"]
+    backupers: ["default", "default_ftp", "minecraft"]
 
 }
