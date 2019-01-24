@@ -1,4 +1,4 @@
-var {run} = require('./Command');
+var {run} = require('./ShellCommand');
 
 
 class ScreenCommander {
