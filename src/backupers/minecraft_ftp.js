@@ -1,5 +1,7 @@
 var Backuper = require('../Backuper');
 var ScreenCommander = require("../modules/ScreenCommander");
+var Client = require('ftp');
+var path = require('path');
 
 class MinecraftFTPBackuper extends Backuper {
 
@@ -15,7 +17,7 @@ class MinecraftFTPBackuper extends Backuper {
         if (this.screen != null) {
             this.screen.send("say Backuping server started...");
             var result = await this.archive(this.generateName());
-            var size = result.size / 1000000;
+            var size = result.stats.size / 1000000;
             this.screen.send(`say Archiving finished. Total size: ${size} MB`);
 
             var client = new Client();
