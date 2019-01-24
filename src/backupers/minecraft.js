@@ -15,7 +15,8 @@ class MinecraftBackuper extends Backuper {
         if (this.screen != null) {
             this.screen.send("say Backuping server started...");
             var result = await this.archive(this.generateName());
-            this.screen.send("say Backuping finished...");
+            var size = result.size / 1000000;
+            this.screen.send(`say Archiving finished. Total size: ${size} MB`);
         }
     }
 
