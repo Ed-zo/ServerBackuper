@@ -44,6 +44,7 @@ Script for backuping files. Originaly made for minecraft servers. Uses tar archi
         - `user`
         - `password`
     - `remoteFolder` What folder should be used to save backups to
+    - `deleteOnUpload` Delete archive on upload. Default: false
 - `minecraft` Archives folders and files and notifies server with a message about archiving. Sends a message to a screen with running minecraft server. Settings:
     - `screenName` The name of screen in which is minecraft server running
 - `minecraft_ftp` Minecraft backuper combined with FTP upload. This backuper creates an archive, notifies server and then is uploaded to an FTP account. Settings:
@@ -54,6 +55,7 @@ Script for backuping files. Originaly made for minecraft servers. Uses tar archi
         - `user`
         - `password`
     - `remoteFolder` What folder should be used to save backups to
+    - `deleteOnUpload` Delete archive on upload. Default: false
     
 ### To Do
 - [x] Check for md5 sum of archive (no need to save same backup twice if nothing changed)

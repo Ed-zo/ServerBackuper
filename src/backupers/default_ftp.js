@@ -1,11 +1,18 @@
 var Backuper = require('../Backuper');
 var Client = require('ftp');
+var fs = require('fs');
 var path = require('path');
 
 class DefaultFTPBackuper extends Backuper {
 
     constructor(props) {
         super(props);
+        if (this.settings == null || this.settings.screenName == null)
+            throw 'Screen name setting is not set!';
+
+        if(this.settings.deleteOnUpload == null) {
+            this.settings.deleteOnUpload = false;
+        }
     }
 
     async _run() {
@@ -25,7 +32,17 @@ class DefaultFTPBackuper extends Backuper {
                             reject(err);
                         } else {
                             this.log(`Uploading finished`);
-                            resolve();
+
+                            if (this.settings.deleteOnUpload) {
+                                fs.unlink(result.out, (err) => {
+                                    if(err)
+                                        reject(err);
+                                    else
+                                        resolve();
+                                });
+                            } else {
+                                resolve();
+                            }
                         }
 
                         client.end();

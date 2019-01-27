@@ -1,6 +1,7 @@
 var Backuper = require('../Backuper');
 var ScreenCommander = require("../modules/ScreenCommander");
 var Client = require('ftp');
+var fs = require('fs');
 var path = require('path');
 
 class MinecraftFTPBackuper extends Backuper {
@@ -10,12 +11,21 @@ class MinecraftFTPBackuper extends Backuper {
         if (this.settings == null || this.settings.screenName == null)
             throw 'Screen name setting is not set!';
 
+        if (this.settings.deleteOnUpload == null) {
+            this.settings.deleteOnUpload = false;
+        }
+
         this.screen = new ScreenCommander(this.settings.screenName);
     }
 
     async _run() {
         if (this.screen != null) {
+            this.screen.send("save-all");
             this.screen.send("say Backuping server started...");
+
+            await new Promise((res, rej) => setTimeout(res, 1000));
+
+            this.screen.send("save-off");
             var result = await this.archive(this.generateName());
             var size = result.stats.size / 1000000;
             this.screen.send(`say Archiving finished. Total size: ${size} MB`);
@@ -23,6 +33,8 @@ class MinecraftFTPBackuper extends Backuper {
             var client = new Client();
 
             var result = await this.archive(this.generateName());
+
+            this.screen.send("save-on");
 
             if (!result.deleted) {
                 var wait = new Promise((resolve, reject) => {
@@ -39,7 +51,17 @@ class MinecraftFTPBackuper extends Backuper {
                             } else {
                                 this.log(`Uploading finished`);
                                 this.screen.send(`say Uploading finished`);
-                                resolve();
+
+                                if (this.settings.deleteOnUpload) {
+                                    fs.unlink(result.out, (err) => {
+                                        if(err)
+                                            reject(err);
+                                        else
+                                            resolve();
+                                    });
+                                } else {
+                                    resolve();
+                                }
                             }
 
                             client.end();
