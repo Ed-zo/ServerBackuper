@@ -3,6 +3,7 @@ var fs = require('fs');
 const path = require('path');
 var Namer = require('./modules/NameCreator');
 var CronJob = require('cron').CronJob;
+var Deleter = require('./deleters/Deleter');
 var dateFormat = require('dateformat');
 
 class Backuper {
@@ -67,7 +68,9 @@ class Backuper {
         try {
             this.log("Backuping has started...");
             var start = process.hrtime();
-            await this._run();
+            var runDeleter = await this._run();
+            if(runDeleter === true)
+                await this.runDeleter();
             this.log(`Backuping finished in ${process.hrtime(start)} seconds`);
         } catch(err) {
             this.log('Error occured while backuping!')
@@ -76,8 +79,25 @@ class Backuper {
     }
 
     /**
+    * Run backuping
+    * @returns true if old archives should be deleted
+    */
+    async _run() {}
+
+    /**
+     * Delete old archives
+     */
+    async runDeleter() {
+        if (this.deleter instanceof Deleter) {
+            var deletedFiles = (await this.deleter.run()).filter(word => word != undefined);
+            if (deletedFiles.length > 0)
+                this.log(`Deleting: ${deletedFiles.join(', ')}`);
+        }
+    }
+
+    /**
      * Archive files
-     * returns true if new archive was created, else false
+     * @returns true if new archive was created, else false
      * @param {string} out File path
      */
     async archive(out) {

@@ -1,7 +1,7 @@
-var Backuper = require('../Backuper');
+var DefaultBackuper = require('../backupers/default');
 var ScreenCommander = require("../modules/ScreenCommander");
 
-class MinecraftBackuper extends Backuper {
+class MinecraftBackuper extends DefaultBackuper {
 
     constructor(props) {
         super(props);
@@ -17,7 +17,10 @@ class MinecraftBackuper extends Backuper {
             var result = await this.archive(this.generateName());
             var size = result.stats.size / 1000000;
             this.screen.send(`say Archiving finished. Total size: ${size} MB`);
+
+            return !result.deleted;
         }
+        return false;
     }
 
 }

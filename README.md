@@ -15,6 +15,7 @@ Script for backuping files. Originaly made for minecraft servers. Uses tar archi
         type: "unique",
         prefix: "backup-",
     },
+    deleteAfter: 600,
     out: "./",
     settings: {}
 }
@@ -32,6 +33,7 @@ Script for backuping files. Originaly made for minecraft servers. Uses tar archi
         - `unique` - A unique ID is generated
         - `time` - Date and time is used
     - `prefix` Text that will be prepended to the name
+- `deleteAfter` Number of seconds when archive is still relevant. This setting is optional. If this setting is not set, no backups will be deleted
 - `out` Folder used for saving archived files
 - `settings` All other optional settings for backupers
 
