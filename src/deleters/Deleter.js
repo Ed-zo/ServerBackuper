@@ -12,10 +12,10 @@ class Deleter {
         return new Promise((resolve, reject) => {
 
             fs.readdir(this.folder, async (err, files) => {
-                if(err) {
+                if (err) {
                     reject(err);
                 } else {
-                    
+
                     var deleted = await this.checkAndDelete(files);
                     resolve(deleted);
                 }
@@ -26,18 +26,18 @@ class Deleter {
 
     checkAndDelete(files) {
         var promises = [];
-        for(let file of files) {
+        for (let file of files) {
             promises.push(new Promise((resolve, reject) => {
-                file = path.join(this.folder, file);
-                
+                file = path.posix.join(this.folder, file);
+
                 fs.stat(file, (err, stats) => {
                     if (err) {
                         reject(err);
                     } else {
-                        
+
                         if (stats.mtime < (new Date().valueOf() - this.deleteOlderThan)) {
                             fs.unlink(file, (err) => {
-                                if(err) {
+                                if (err) {
                                     reject(err);
                                 } else {
                                     resolve(file);

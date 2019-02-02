@@ -1,5 +1,6 @@
 var Backuper = require('../Backuper');
 var ScreenCommander = require("../modules/ScreenCommander");
+var FTPDeleter = require('../deleters/FTPDeleter');
 var Client = require('ftp');
 var fs = require('fs');
 var path = require('path');
@@ -11,8 +12,15 @@ class MinecraftFTPBackuper extends Backuper {
         if (this.settings == null || this.settings.screenName == null)
             throw 'Screen name setting is not set!';
 
+        if (this.settings == null || this.settings.ftp == null)
+            throw 'FTP settings are not set!';
+
         if (this.settings.deleteOnUpload == null) {
             this.settings.deleteOnUpload = false;
+        }
+
+        if (this.deleteAfter != null) {
+            this.deleter = new FTPDeleter(this.out, this.deleteAfter, this.settings.ftp);
         }
 
         this.screen = new ScreenCommander(this.settings.screenName);
@@ -43,7 +51,7 @@ class MinecraftFTPBackuper extends Backuper {
                         var folder = path.posix.join(this.settings.remoteFolder, path.basename(result.out));
                         this.screen.send(`say Uploading archive to remote server...`);
                         this.log(`Uploading to remote server: ${folder}`);
-                        
+
                         client.put(result.out, folder, (err) => {
                             if (err) {
                                 reject(err);
@@ -54,13 +62,13 @@ class MinecraftFTPBackuper extends Backuper {
 
                                 if (this.settings.deleteOnUpload) {
                                     fs.unlink(result.out, (err) => {
-                                        if(err)
+                                        if (err)
                                             reject(err);
                                         else
-                                            resolve();
+                                            resolve(true);
                                     });
                                 } else {
-                                    resolve();
+                                    resolve(true);
                                 }
                             }
 
@@ -72,7 +80,9 @@ class MinecraftFTPBackuper extends Backuper {
                     client.connect(this.settings.ftp);
                 });
 
-                await wait;
+                return await wait;
+            } else {
+                return false;
             }
         }
     }
