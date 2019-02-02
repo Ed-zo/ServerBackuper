@@ -1,27 +1,14 @@
-var Backuper = require('../Backuper');
+var DefaultFTPBackuper = require('./default_ftp');
 var ScreenCommander = require("../modules/ScreenCommander");
 var FTPDeleter = require('../deleters/FTPDeleter');
 var Client = require('ftp');
 var fs = require('fs');
 var path = require('path');
 
-class MinecraftFTPBackuper extends Backuper {
+class MinecraftFTPBackuper extends DefaultFTPBackuper {
 
     constructor(props) {
         super(props);
-        if (this.settings == null || this.settings.screenName == null)
-            throw 'Screen name setting is not set!';
-
-        if (this.settings == null || this.settings.ftp == null)
-            throw 'FTP settings are not set!';
-
-        if (this.settings.deleteOnUpload == null) {
-            this.settings.deleteOnUpload = false;
-        }
-
-        if (this.deleteAfter != null) {
-            this.deleter = new FTPDeleter(this.out, this.deleteAfter, this.settings.ftp);
-        }
 
         this.screen = new ScreenCommander(this.settings.screenName);
     }

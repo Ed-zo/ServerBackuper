@@ -19,7 +19,7 @@ class DefaultFTPBackuper extends Backuper {
         }
 
         if (this.deleteAfter != null) {
-            this.deleter = new FTPDeleter(this.settings.remoteFolder, this.deleteAfter, this.settings.ftp);
+            this.deleter = new FTPDeleter(this.settings.remoteFolder, this.deleteAfter, this.naming.prefix, this.settings.ftp);
         }
     }
 

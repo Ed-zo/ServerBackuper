@@ -4,8 +4,8 @@ var path = require('path');
 
 class FTPDeleter extends Deleter {
 
-    constructor(folder, deleteOlderThan, ftpSettings) {
-        super(folder, deleteOlderThan);
+    constructor(folder, deleteOlderThan, prefix, ftpSettings) {
+        super(folder, deleteOlderThan, prefix);
 
         if (ftpSettings == null)
             throw 'FTP settings are not set!';
@@ -24,6 +24,7 @@ class FTPDeleter extends Deleter {
                         reject(err);
                     } else {
                         try {
+                            files = files.filter((file) => file.name.substr(0, this.prefix.length) == this.prefix);
                             var deleted = await this.checkAndDelete(files, client);
                             resolve(deleted);
                         } catch (err) {

@@ -7,7 +7,7 @@ class DefaultBackuper extends Backuper {
         super(props);
 
         if (this.deleteAfter != null) {
-            this.deleter = new Deleter(this.out, this.deleteAfter);
+            this.deleter = new Deleter(this.out, this.deleteAfter, this.naming.prefix);
         }
     }
 

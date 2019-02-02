@@ -3,9 +3,14 @@ var path = require('path');
 
 class Deleter {
 
-    constructor(folder, deleteOlderThan) {
+    constructor(folder, deleteOlderThan, prefix) {
         this.folder = folder;
         this.deleteOlderThan = deleteOlderThan * 1000;
+
+        if(prefix == null || prefix.trim() == "")
+            throw "Prefix needs to be defined for deleter!";
+
+        this.prefix = prefix;
     }
 
     run() {
@@ -15,7 +20,7 @@ class Deleter {
                 if (err) {
                     reject(err);
                 } else {
-
+                    files = files.filter((name) => name.substr(0, this.prefix.length) == this.prefix);
                     var deleted = await this.checkAndDelete(files);
                     resolve(deleted);
                 }

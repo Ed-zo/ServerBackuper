@@ -32,8 +32,8 @@ Script for backuping files. Originaly made for minecraft servers. Uses tar archi
     - `type` What naming should be used. Options: 
         - `unique` - A unique ID is generated
         - `time` - Date and time is used
-    - `prefix` Text that will be prepended to the name
-- `deleteAfter` Number of seconds when archive is still relevant. This setting is optional. If this setting is not set, no backups will be deleted
+    - `prefix` Text that will be prepended to the name. Auto deleter uses prefix to filter out files that are relevant to this profile
+- `deleteAfter` Number of seconds when archive is still relevant. Finding archives which should be deleted is based on prefix (`naming.prefix`) of file. This setting is optional. If this setting is not set, no backups will be deleted
 - `out` Folder used for saving archived files
 - `settings` All other optional settings for backupers
 
@@ -61,7 +61,7 @@ Script for backuping files. Originaly made for minecraft servers. Uses tar archi
     
 ### To Do
 - [x] Check for md5 sum of archive (no need to save same backup twice if nothing changed)
-- [ ] Delete old archives
+- [x] Delete old archives
 - [ ] Better error handling. Save if there was an error and turn off profile after few errors occure.
 - Create more profiles for:
     - [x] Minecraft
