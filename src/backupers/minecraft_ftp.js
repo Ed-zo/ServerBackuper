@@ -9,6 +9,9 @@ class MinecraftFTPBackuper extends DefaultFTPBackuper {
 
     constructor(props) {
         super(props);
+        
+        if (this.settings == null || this.settings.screenName == null)
+            throw 'Screen name setting is not set!';
 
         this.screen = new ScreenCommander(this.settings.screenName);
     }

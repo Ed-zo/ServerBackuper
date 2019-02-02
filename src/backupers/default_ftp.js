@@ -8,8 +8,6 @@ class DefaultFTPBackuper extends Backuper {
 
     constructor(props) {
         super(props);
-        if (this.settings == null || this.settings.screenName == null)
-            throw 'Screen name setting is not set!';
 
         if (this.settings == null || this.settings.ftp == null)
             throw 'FTP settings are not set!';
