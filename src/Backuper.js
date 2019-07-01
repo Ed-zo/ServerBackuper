@@ -17,7 +17,6 @@ class Backuper {
         } else {
             if (this.naming.type == null || Namer[this.naming.type] == null) throw 'Unknown naming type!';
         }
-        
     }
 
     worksWithFolder() {
@@ -36,7 +35,7 @@ class Backuper {
     init() {
         if (this.job == null) {
             this.log('Starting...');
-            this.job = new CronJob(this.execute, this.runBackup.bind(this));
+            this.job = new CronJob(this.execute, this.runBackupRoutine.bind(this));
         }
     }
 
@@ -62,27 +61,27 @@ class Backuper {
     }
 
     /**
-     * Start backuping process
+     * Start backuping routine
      */
-    async runBackup() {
+    async runBackupRoutine() {
         try {
             this.log("Backuping has started...");
             var start = process.hrtime();
             var runDeleter = await this._run();
-            if(runDeleter === true)
+            if (runDeleter === true)
                 await this.runDeleter();
             this.log(`Backuping finished in ${process.hrtime(start)} seconds`);
-        } catch(err) {
-            this.log('Error occured while backuping!')
-            console.error(err);
+        } catch (err) {
+            this.log('[ERROR] Error occured while backuping!')
+            this.error(err);
         }
     }
 
     /**
     * Run backuping
-    * @returns true if old archives should be deleted
+    * @returns boolean if deleter should run
     */
-    async _run() {}
+    async _run() { }
 
     /**
      * Delete old archives
@@ -92,6 +91,8 @@ class Backuper {
             var deletedFiles = (await this.deleter.run()).filter(word => word != undefined);
             if (deletedFiles.length > 0)
                 this.log(`Deleting: ${deletedFiles.join(', ')}`);
+        } else {
+            throw 'Deleter is not instance of Deleter';
         }
     }
 
@@ -110,13 +111,15 @@ class Backuper {
 
         var [currMD5, stats] = await Promise.all([Archiver.md5(out), new Promise((resolve, reject) => {
             fs.lstat(out, (err, stats) => {
-                if(err) reject(err);
+                if (err) reject(err);
                 else resolve(stats);
             });
         })]);
 
         if (this.lastArchive != null && currMD5 == this.lastArchive) {
             fs.unlink(out, (err) => {
+                if (err) throw err;
+
                 this.log("No need to have new archive (no file changed). Throwing away...");
             });
             return { deleted: true, stats, out };
@@ -128,6 +131,10 @@ class Backuper {
 
     log(msg) {
         console.log(`[${dateFormat(new Date(), 'dd.mm. HH:MM:ss')}] [${this.name}] ${msg}`);
+    }
+
+    error(err) {
+        console.error(`[${dateFormat(new Date(), 'dd.mm. HH:MM:ss')}] [${this.name}] `, err);
     }
 }
 

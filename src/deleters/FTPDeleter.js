@@ -35,6 +35,11 @@ class FTPDeleter extends Deleter {
                 });
             });
 
+            client.on('error', (err) => {
+                client.end();
+                reject(err);
+            });
+
             client.connect(this.ftpSettings);
         });
     }

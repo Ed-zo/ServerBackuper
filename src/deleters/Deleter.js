@@ -4,12 +4,17 @@ var path = require('path');
 class Deleter {
 
     constructor(folder, deleteOlderThan, prefix) {
-        this.folder = folder;
-        this.deleteOlderThan = deleteOlderThan * 1000;
+        if (folder == null)
+            throw 'Folder for deleter needs to be defined!';
 
-        if(prefix == null || prefix.trim() == "")
+        if (prefix == null || prefix.trim() == "")
             throw "Prefix needs to be defined for deleter!";
 
+        if (deleteOlderThan == null || isNaN(deleteOlderThan))
+            throw "Delete older than needs to be a number!";
+
+        this.folder = folder;
+        this.deleteOlderThan = deleteOlderThan * 1000;
         this.prefix = prefix;
     }
 

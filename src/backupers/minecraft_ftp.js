@@ -9,7 +9,7 @@ class MinecraftFTPBackuper extends DefaultFTPBackuper {
 
     constructor(props) {
         super(props);
-        
+
         if (this.settings == null || this.settings.screenName == null)
             throw 'Screen name setting is not set!';
 
@@ -29,8 +29,6 @@ class MinecraftFTPBackuper extends DefaultFTPBackuper {
             this.screen.send(`say Archiving finished. Total size: ${size} MB`);
 
             var client = new Client();
-
-            var result = await this.archive(this.generateName());
 
             this.screen.send("save-on");
 
@@ -65,6 +63,11 @@ class MinecraftFTPBackuper extends DefaultFTPBackuper {
                             client.end();
                         });
 
+                    });
+
+                    client.on('error', (err) => {
+                        client.end();
+                        reject(err);
                     });
 
                     client.connect(this.settings.ftp);

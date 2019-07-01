@@ -56,6 +56,11 @@ class DefaultFTPBackuper extends Backuper {
 
                 });
 
+                client.on('error', (err) => {
+                    client.end();
+                    reject(err);
+                });
+
                 client.connect(this.settings.ftp);
             });
 
