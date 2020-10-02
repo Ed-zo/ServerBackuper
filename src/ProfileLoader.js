@@ -1,6 +1,8 @@
 var ProfileConfig = require("../configs/profiles");
 var definedBackupers = require('../configs/default').backupers;
-const BACKUPERS_PATH = __dirname + "/backupers/";
+var path = require("path");
+
+const BACKUPERS_PATH = path.join(__dirname, "backupers");
 
 var BackuperClass = {};
 
